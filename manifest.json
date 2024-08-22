@@ -6,11 +6,11 @@
     "permissions": ["contextMenus", "storage", "tabs"],
     "host_permissions": ["https://www.google.com/maps/*"],
     "action": {
-      "default_popup": "popup.html",
+      "default_popup": "src/popup.html",
       "default_icon": "logo.png"
     },
     "background": {
-      "service_worker": "background.js"
+      "service_worker": "src/background.js"
     }
   }
 
