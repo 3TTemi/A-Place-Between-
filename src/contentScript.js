@@ -20,6 +20,14 @@ function addCustomMenuItem() {
 
           // Add the click event for your new menu item
           newItem.addEventListener('click', function() {
+            // Retrive current latitude and longitude 
+              const latLng = extractLatLngFromURL();
+              chrome.storage.local.get({ locations: [] }, function(result) {
+                const updatedLocations = [...result.locations, latLng];
+                chrome.storage.local.set({ locations: updatedLocations }, function() {
+                    console.log('Location added:', latLng);
+                });
+            });
               alert('Location added to A Place Between');
           });
 
@@ -34,17 +42,37 @@ function addCustomMenuItem() {
 
 // Set up the event listener on the map element
 function setupContextMenuListener() {
-  const mapElement = document.querySelector('#scene'); // This is usually the element ID for the map in Google Maps
+  // Element ID for the map in Google Maps
+  const mapElement = document.querySelector('#scene'); 
 
   if (mapElement) {
       mapElement.addEventListener('contextmenu', function(event) {
-          console.log('Right-click event detected.');
           setTimeout(addCustomMenuItem, 500); // Modify the context menu after it appears
       });
   } else {
       console.error('Google Maps element not found.');
   }
 }
+
+function extractLatLngFromURL() {
+  const url = window.location.href;
+
+   // Use a regular expression to search for the latitude and longitude in the URL
+  const latLngMatch = url.match(/@(-?\d+\.\d+),(-?\d+\.\d+)/);
+
+  // If the pattern is found in the URL, extract the latitude and longitude
+  // Pattern: optimal minus sign followed by one or more digits, a decimal point, and one or more digits
+  if (latLngMatch) {
+      const lat = parseFloat(latLngMatch[1]);
+      const lng = parseFloat(latLngMatch[2]);
+      return { lat: lat, lng: lng };
+  }
+
+  // If the pattern is not found, log an error message and return null
+  console.error('Could not extract latitude and longitude from the URL');
+  return null; // Return null if extraction fails
+}
+
 
 // Initialize the listener once the page loads
 window.onload = setupContextMenuListener;
