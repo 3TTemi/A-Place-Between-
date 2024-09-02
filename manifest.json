@@ -4,13 +4,26 @@
     "description": "Find a place to meet in the middle between a few addresses",
     "version": "1.0.0",
     "permissions": ["contextMenus", "storage", "tabs"],
-    "host_permissions": ["https://www.google.com/maps/*"],
+    "host_permissions": ["https://www.google.com/maps/*"], 
     "action": {
       "default_popup": "src/popup.html",
       "default_icon": "logo.png"
     },
     "background": {
       "service_worker": "src/background.js"
-    }
+    },
+    "content_scripts": [
+      {
+        "matches": ["https://www.google.com/maps/*"],
+        "js": ["src/contentScript.js"]
+      }
+    ]
   }
 
+
+  
+
+
+
+  
+  
