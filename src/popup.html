@@ -2,19 +2,20 @@
 <html>
 <head>
     <title>A Place Between</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 10px; width: 300px; }
-        .location { padding: 5px; margin-bottom: 5px; border-bottom: 1px solid #ddd; }
-        .actions { margin-top: 10px; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="popup.css" />
 </head>
 <body>
     <h1>A Place Between</h1>
     <div id="locations"></div>
-    <div class="actions">
-        <button id="clearAll">Clear All</button>
-        <button id="findPlaces">Find Places</button>
+    <div id="buttons">
+        <button id="clearLocations">Clear Locations</button>
+        <button id="findCenter">Find Center</button>
     </div>
+    <div id="search-container">
+        <label for="search-query">Search for:</label>
+        <input type="text" id="search-query" placeholder="e.g., movie theater, restaurant">
+    </div>
+    <div id="result"></div>
     <script src="popup.js"></script>
 </body>
 </html>

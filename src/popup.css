@@ -1,0 +1,67 @@
+body {
+  width: 300px;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+#locations {
+  margin-bottom: 20px;
+}
+
+.location {
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+#buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+button {
+  padding: 8px 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+#search-container {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#search-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+#search-query {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+#result {
+  margin-top: 20px;
+}
+
+#result button {
+  margin-top: 10px;
+  width: 100%;
+}
