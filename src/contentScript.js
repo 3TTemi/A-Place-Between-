@@ -21,7 +21,7 @@ function addCustomMenuItem() {
           // Add the click event for your new menu item
           newItem.addEventListener('click', function() {
             // Retrive current latitude and longitude 
-              const latLng = extractLatLngFromURL();
+              const latLng = extractLatLngFromContextMenu();
               chrome.storage.local.get({ locations: [] }, function(result) {
                 const updatedLocations = [...result.locations, latLng];
                 chrome.storage.local.set({ locations: updatedLocations }, function() {
@@ -52,6 +52,24 @@ function setupContextMenuListener() {
   } else {
       console.error('Google Maps element not found.');
   }
+}
+
+function extractLatLngFromContextMenu() {
+  // Query the specific div that contains the latitude and longitude
+  const menuItem = document.querySelector('div[role="menuitemradio"][data-index="0"] .mLuXec');
+
+  if (menuItem) {
+      const coordinatesText = menuItem.textContent.trim(); 
+
+      // Split the text by comma and convert the parts to floating-point numbers
+      const [lat, lng] = coordinatesText.split(',').map(coord => parseFloat(coord));
+
+      return { lat: lat, lng: lng };
+  }
+
+  // If the menu item is not found, log an error and return null
+  console.error('Could not extract latitude and longitude from the context menu');
+  return null;
 }
 
 function extractLatLngFromURL() {

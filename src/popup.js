@@ -8,8 +8,10 @@ document.addEventListener('DOMContentLoaded', function() {
         result.locations.forEach((location, index) => {
             const locationDiv = document.createElement('div');
             locationDiv.className = 'location';
-            locationDiv.textContent = `Location ${index + 1}: (${location.lat}, ${location.lng})`;
-            locationsDiv.appendChild(locationDiv);
+            reverseGeocode(location.lat, location.lng).then(address => {
+                locationDiv.textContent = `Location ${index + 1}: ${address}`;
+                locationsDiv.appendChild(locationDiv);
+            });
         });
     });
 
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     findPlacesBtn.addEventListener('click', function() {
         chrome.storage.local.get({ locations: [] }, function(result) {
             const centroid = calculateCentroid(result.locations);
-            const searchQuery = 'movie theater';r
+            const searchQuery = 'movie theater';
             const mapUrl = `https://www.google.com/maps/search/${searchQuery}/@${centroid.lat},${centroid.lng},15z`;
             chrome.tabs.create({ url: mapUrl });
         });
@@ -36,4 +38,19 @@ function calculateCentroid(locations) {
     const latSum = locations.reduce((sum, loc) => sum + loc.lat, 0);
     const lngSum = locations.reduce((sum, loc) => sum + loc.lng, 0);
     return { lat: latSum / locations.length, lng: lngSum / locations.length };
+}
+
+
+async function reverseGeocode(lat, lng) {
+    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`;
+
+    try {
+        const response = await fetch(url, { headers: { 'User-Agent': 'APlaceBetween/1.0' } });
+        const data = await response.json();
+        console.log('Reverse geocoding result:', data.address.road);
+        return data.address.road || null; // Extract the address
+    } catch (error) {
+        console.error('Error with Nominatim API:', error);
+        return null;
+    }
 }
